@@ -2,7 +2,6 @@ import numpy as np
 
 np.random.seed(0)
 
-
 class ContrastiveLearningViewGenerator(object):
     """Take two random crops of one image as the query and key."""
 
