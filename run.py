@@ -67,7 +67,8 @@ def main():
         args.device = torch.device('cpu')
         args.gpu_index = -1
 
-    dataset = ContrastiveLearningDataset(pd.read_csv(args.data))
+    df = pd.read_csv(args.data)
+    dataset = ContrastiveLearningDataset(df)
 
     train_dataset = dataset.get_dataset(args.n_views)
 
@@ -75,7 +76,7 @@ def main():
         train_dataset, batch_size=args.batch_size, shuffle=True,
         num_workers=args.workers, pin_memory=True, drop_last=True)
 
-    model = SimpleModel(5700, 128)
+    model = SimpleModel(df.shape[1], 128)
 
     optimizer = torch.optim.Adam(model.parameters(), args.lr, weight_decay=args.weight_decay)
 
