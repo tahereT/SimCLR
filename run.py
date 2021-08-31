@@ -4,6 +4,7 @@ import torch.backends.cudnn as cudnn
 from torchvision import models
 from data_aug.contrastive_learning_dataset import ContrastiveLearningDataset
 from models.resnet_simclr import ResNetSimCLR
+from models.simplemodel import SimpleModel
 from simclr import SimCLR
 import pandas as pd
 
@@ -74,7 +75,7 @@ def main():
         train_dataset, batch_size=args.batch_size, shuffle=True,
         num_workers=args.workers, pin_memory=True, drop_last=True)
 
-    model = ResNetSimCLR(base_model=args.arch, out_dim=args.out_dim)
+    model = SimpleModel(5700, 128)
 
     optimizer = torch.optim.Adam(model.parameters(), args.lr, weight_decay=args.weight_decay)
 
