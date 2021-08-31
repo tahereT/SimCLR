@@ -4,7 +4,7 @@ import torch
 
 class GaussianNoise(object):
     # we assume data is normalized
-    def __init__(self, mean = 0.5 , std = 0.01):
+    def __init__(self, mean = 0 , std = 0.01):
       self.mean = mean
       self.std = std
     def __call__(self , sample):
