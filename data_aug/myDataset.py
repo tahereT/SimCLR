@@ -15,7 +15,6 @@ class mydataset(Dataset):
             idx = idx.tolist()
 
         sample = self.df.iloc[idx].to_numpy()
-        print(sample)
 
         if self.transform:
             sample = self.transform(sample)
