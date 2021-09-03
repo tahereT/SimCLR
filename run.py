@@ -53,7 +53,10 @@ parser.add_argument('--temperature', default=0.07, type=float,
 parser.add_argument('--n-views', default=2, type=int, metavar='N',
                     help='Number of views for contrastive learning training.')
 parser.add_argument('--gpu-index', default=0, type=int, help='Gpu index.')
-parser.add_argument('--out_path' , default='models/model')
+parser.add_argument('--out_path' , default='models/model' , help='path for saving model')
+parser.add_argument('--mean' , default=0 , help='mean for gaussing noise')
+parser.add_argument('--std' , default=1.0 , help='std for gaussing noise')
+parser.add_argument('--n' , default=100 , help='number of features for crop')
 
 
 def main():
@@ -71,7 +74,7 @@ def main():
     df = pd.read_csv(args.data)
     dataset = ContrastiveLearningDataset(df)
 
-    train_dataset = dataset.get_dataset(args.n_views)
+    train_dataset = dataset.get_dataset(args.n_views , args.mean, args.std, args.n)
 
     train_loader = torch.utils.data.DataLoader(
         train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)

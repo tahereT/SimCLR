@@ -10,15 +10,15 @@ class ContrastiveLearningDataset:
     @staticmethod
     def get_simclr_pipeline_transform(mean = 0 , std = 1 , n = 100):
         """Return a set of data augmentation transformations as described in the SimCLR paper."""
-        data_transforms = transforms.Compose([GaussianNoise(),
-                                              RandomCrop(),
+        data_transforms = transforms.Compose([GaussianNoise(mean , std),
+                                              RandomCrop(n),
                                               ToTensor()
                                               ])
         return data_transforms
 
-    def get_dataset(self , n_views=2):
+    def get_dataset(self , n_views=2, mean=0 , std=1 , n=100):
         dataset = mydataset(self.df , transform = ContrastiveLearningViewGenerator(
-            self.get_simclr_pipeline_transform(),
+            self.get_simclr_pipeline_transform(mean, std, n),
             n_views))
         return dataset
 
