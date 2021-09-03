@@ -53,6 +53,7 @@ parser.add_argument('--temperature', default=0.07, type=float,
 parser.add_argument('--n-views', default=2, type=int, metavar='N',
                     help='Number of views for contrastive learning training.')
 parser.add_argument('--gpu-index', default=0, type=int, help='Gpu index.')
+parser.add_argument('--out_path' , default='models/model')
 
 
 def main():
@@ -73,10 +74,9 @@ def main():
     train_dataset = dataset.get_dataset(args.n_views)
 
     train_loader = torch.utils.data.DataLoader(
-        train_dataset, batch_size=args.batch_size, shuffle=True,
-        num_workers=args.workers, pin_memory=True, drop_last=True)
+        train_dataset, batch_size=args.batch_size, shuffle=True, drop_last=True)
 
-    model = SimpleModel(df.shape[1], 128)
+    model = SimpleModel(df.shape[1], args.out_dim)
 
     optimizer = torch.optim.Adam(model.parameters(), args.lr, weight_decay=args.weight_decay)
 
@@ -87,6 +87,7 @@ def main():
     with torch.cuda.device(args.gpu_index):
         simclr = SimCLR(model=model, optimizer=optimizer, scheduler=scheduler, args=args)
         simclr.train(train_loader)
+        torch.save(model, args.out_path)
 
 
 if __name__ == "__main__":
