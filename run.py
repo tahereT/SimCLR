@@ -54,10 +54,9 @@ parser.add_argument('--n-views', default=2, type=int, metavar='N',
                     help='Number of views for contrastive learning training.')
 parser.add_argument('--gpu-index', default=0, type=int, help='Gpu index.')
 parser.add_argument('--out_path' , default='models/model' , help='path for saving model')
-parser.add_argument('--mean' , default=0 , help='mean for gaussing noise')
-parser.add_argument('--std' , default=1.0 , help='std for gaussing noise')
-parser.add_argument('--n' , default=100 , help='number of features for crop')
-
+parser.add_argument('--mean' , default=0 , type=float, help='mean for gaussing noise')
+parser.add_argument('--std' , default=1.0 , type=float, help='std for gaussing noise')
+parser.add_argument('--n' , default=100 , type=int,help='number of features for crop')
 
 def main():
     args = parser.parse_args()
@@ -90,7 +89,7 @@ def main():
     with torch.cuda.device(args.gpu_index):
         simclr = SimCLR(model=model, optimizer=optimizer, scheduler=scheduler, args=args)
         simclr.train(train_loader)
-        torch.save(model, args.out_path)
+	torch.save(model.state_dict(), args.out_path)
 
 
 if __name__ == "__main__":

@@ -17,7 +17,8 @@ class SimpleModel(nn.Module):
       l2 = self.encoder_output_layer(l1)
       l3 = self.relu(l2)
       return self.backbone(l3)
-    def forward(self , features):
+      
+    def get_features(self , features):
       l1 = self.encoder_hidden_layer(features)
       l2 = self.encoder_output_layer(l1)
       l3 = self.relu(l2)
